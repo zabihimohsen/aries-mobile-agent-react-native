@@ -78,15 +78,18 @@ jobs:
         with:
           name: release-artifacts
           path: ./packages/legacy/app/android/app/build/outputs/apk/release/
-      - name: Tag the repository
-        id: tag
+
+      - name: Set output
+        id: vars
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+
+      - name: Check output
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
         run: |
-          # See https://docs.github.com/en/get-started/using-git/dealing-with-special-characters-in-branch-and-tag-names
-          TAG=v$(date -Iseconds | sed 's/[T:\+]/-/g')
-          echo "$TAG"
-          echo "tag=$TAG" >> $GITHUB_OUTPUT
-          git tag -a $TAG -m "Published version $TAG" ${GITHUB_SHA}
-          git push origin $TAG
+          echo $RELEASE_VERSION
+          echo ${{ steps.vars.outputs.tag }}
+
           
       - name: Create Github Release
         uses: softprops/action-gh-release@v1
@@ -95,4 +98,4 @@ jobs:
           prerelease: true
           files: |
              ./packages/legacy/app/android/app/build/outputs/apk/release/app-release.apk
-          tag_name: ${{ steps.tag.outputs.tag }}
+          tag_name: ${{ steps.vars.outputs.tag }}
