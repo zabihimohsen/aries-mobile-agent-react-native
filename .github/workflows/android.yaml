@@ -71,7 +71,7 @@ jobs:
 
       - name: Android Release Build
         working-directory: ./packages/legacy/app/android
-        run: ./gradlew --no-daemon bundleRelease
+        run: ./gradlew --no-daemon assembleRelease
         
       - name: Upload Release Build to Artifacts
         uses: actions/upload-artifact@v3
