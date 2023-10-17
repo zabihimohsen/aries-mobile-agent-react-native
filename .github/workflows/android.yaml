@@ -1,4 +1,4 @@
-name: Android & iOS Build
+name: Android Build
 
 env:
   cacheId: '9' # increment to expire the cache
@@ -78,7 +78,16 @@ jobs:
         with:
           name: release-artifacts
           path: ./packages/legacy/app/android/app/build/outputs/apk/release/
-     
+      - name: Tag the repository
+        id: tag
+        run: |
+          # See https://docs.github.com/en/get-started/using-git/dealing-with-special-characters-in-branch-and-tag-names
+          TAG=v$(date -Iseconds | sed 's/[T:\+]/-/g')
+          echo "$TAG"
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          git tag -a $TAG -m "Published version $TAG" ${GITHUB_SHA}
+          git push origin $TAG
+          
       - name: Create Github Release
         uses: softprops/action-gh-release@v1
         with:
@@ -86,3 +95,4 @@ jobs:
           prerelease: true
           files: |
              ./packages/legacy/app/android/app/build/outputs/apk/release/app-release.apk
+          tag_name: ${{ steps.tag.outputs.tag }}
