@@ -83,19 +83,19 @@ jobs:
         id: vars
         run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
-      - name: Check output
-        env:
-          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
-        run: |
-          echo $RELEASE_VERSION
-          echo ${{ steps.vars.outputs.tag }}
+      # - name: Check output
+      #   env:
+      #     RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+      #   run: |
+      #     echo $RELEASE_VERSION
+      #     echo ${{ steps.vars.outputs.tag }}
 
           
-      - name: Create Github Release
-        uses: softprops/action-gh-release@v1
-        with:
-          generate_release_notes: true
-          prerelease: true
-          files: |
-             ./packages/legacy/app/android/app/build/outputs/apk/release/app-release.apk
-          tag_name: ${{ steps.vars.outputs.tag }}
+      # - name: Create Github Release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     generate_release_notes: true
+      #     prerelease: true
+      #     files: |
+      #        ./packages/legacy/app/android/app/build/outputs/apk/release/app-release.apk
+      #     tag_name: ${{ steps.vars.outputs.tag }}
