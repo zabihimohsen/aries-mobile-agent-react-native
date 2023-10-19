@@ -102,6 +102,7 @@ android {
         missingDimensionStrategy 'react-native-camera', 'general'
     }
 
+
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
