@@ -1,4 +1,3 @@
----
 name: Android Build
 env:
   cacheId: "9"
@@ -87,7 +86,7 @@ jobs:
 
       - name: Set latest tag
         id: latest_tag
-        run: echo "::set-output name=latest::$(git describe --tags --match='v[0-9].0*' HEAD)"
+        run: echo "::latest::$(git describe --tags --match='v[0-9].0*' HEAD)"
 
       #builds changelog but just fetches last commit
       - name: Build Changelog
