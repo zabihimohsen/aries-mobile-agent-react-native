@@ -81,7 +81,7 @@ jobs:
         run: |
           yarn lerna run build
 
-       - name: Set output
+      - name: Set output
         id: vars
         run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
       #builds changelog but just fetches last commit
