@@ -84,13 +84,15 @@ jobs:
       - name: Set output
         id: vars
         run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+
       #builds changelog but just fetches last commit
       - name: Build Changelog
         id: github_release
         uses: mikepenz/release-changelog-builder-action@v4.0.0
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          fromTag: "v1.1.1"
+          # fromTag: "v1.1.1"
+          fromTag: "git describe --tags --match="v[0-9].0*" HEAD"
           toTag: ${{ steps.vars.outputs.tag }}
           # configuration: ".github/config/configuration.json"
           # ignorePreReleases: ${{ !contains(github.ref, '-') }}
