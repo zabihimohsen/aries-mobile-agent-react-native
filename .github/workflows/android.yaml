@@ -81,6 +81,9 @@ jobs:
         run: |
           yarn lerna run build
 
+       - name: Set output
+        id: vars
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
       #builds changelog but just fetches last commit
       - name: Build Changelog
         id: github_release
@@ -88,7 +91,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           toTag: "v1.1.1"
-          fromTag: "${GITHUB_REF#refs/*/}"
+          fromTag: ${{ steps.vars.outputs.tag }}
           # configuration: ".github/config/configuration.json"
           # ignorePreReleases: ${{ !contains(github.ref, '-') }}
         env:
@@ -103,9 +106,7 @@ jobs:
         with:
           name: release-artifacts
           path: ./packages/legacy/app/android/app/build/outputs/apk/release/
-      - name: Set output
-        id: vars
-        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+
       # - name: Get version
       #   run: echo "VERSION_INFORMATION=$(${{github.workspace}}/gradlew -q
       #     printVersionInformation)" >> $GITHUB_ENV
