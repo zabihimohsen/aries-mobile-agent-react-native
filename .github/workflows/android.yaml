@@ -86,7 +86,7 @@ jobs:
 
       - name: Set latest tag
         id: latest_tag
-        run: echo "::latest::$(git describe --tags --match='v[0-9].0*' HEAD)"
+        run: echo "latest=v1.1.10"
 
       #builds changelog but just fetches last commit
       - name: Build Changelog
