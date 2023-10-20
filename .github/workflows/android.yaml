@@ -86,7 +86,7 @@ jobs:
 
       - name: Set latest tag
         id: latest_tag
-        run: echo "latest=v1.1.10"
+        run: echo "latest=v1.1.10"  >> "$GITHUB_OUTPUT"
 
       #builds changelog but just fetches last commit
       - name: Build Changelog
