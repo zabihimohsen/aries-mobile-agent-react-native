@@ -87,7 +87,8 @@ jobs:
       - name: Set latest tag
         id: latest_tag
         run: |
-          echo "latest_tag=$(git describe --tags --match='v1.0.[0-9]*' HEAD)" >> $GITHUB_ENV
+          latest_tag=$(git describe --tags --match='v1.0.[0-9]*' HEAD)
+          echo "::set-output name=latest_tag::$latest_tag"
       - name: Test
         run: echo $GITHUB_SHA_SHORT
       #builds changelog but just fetches last commit
