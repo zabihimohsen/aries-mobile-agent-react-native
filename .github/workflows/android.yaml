@@ -87,7 +87,7 @@ jobs:
       - name: Set latest tag
         id: latest_tag
         run: |
-          latest_tag=$(git describe --tags --match='v1.0.[0-9]*' HEAD)
+          latest_tag=$(git describe --tags --match='v1.0.[0-9]*')
           echo "::set-output name=latest_tag::$latest_tag"
       - name: Test
         run: echo ${{ steps.latest_tag.latest_tag }}
