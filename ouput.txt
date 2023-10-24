@@ -1,0 +1,2 @@
+latest=git describe --tags --match="v[0-9].0*" HEAD
+git describe --tags HEAD
