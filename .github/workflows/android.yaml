@@ -5,7 +5,7 @@ on:
   workflow_dispatch: null
   push:
     tags:
-      - 'Android[0-9]+.[0-9]+.[0-9]+([0-9]+)'
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 jobs:
   build-android:
     runs-on: ubuntu-latest
