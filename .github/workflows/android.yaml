@@ -107,10 +107,21 @@ jobs:
           # ignorePreReleases: ${{ !contains(github.ref, '-') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #Fetch and decrypt the keystore
+      - name: Decode Keystore
+        id: decode_keystore
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: 'keystore/your_signing_keystore.jks'
+          encodedString: ${{ secrets.KEYSTORE }}
 
       - name: Android Release Build
         working-directory: ./packages/legacy/app/android
         run: ./gradlew --no-daemon assembleRelease
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
 
       - name: Upload Release Build to Artifacts
         uses: actions/upload-artifact@v3
