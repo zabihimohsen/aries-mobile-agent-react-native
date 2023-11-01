@@ -113,7 +113,7 @@ jobs:
         uses: timheuer/base64-to-file@v1.2
         with:
           fileName: 'android_keystore.jks'
-          fileDir: '/home/runner/work/aries-mobile-agent-react-native/packages/legacy/app/android/app/keystore/'
+          fileDir: './packages/legacy/app/android/app/keystore/'
           encodedString: ${{ secrets.KEYSTORE }}
 
       - name: Android Release Build
