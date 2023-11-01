@@ -1,6 +1,7 @@
 # Developers Guide
 The following document is intended to help developers get started with the Bifold project. It includes information on how to set up your development environment, build the project, and run the app in an emulator.
 
+
 # Project Overview
 
 The Aries Mobile Agent React Native (Bifold) is a user-friendly mobile agent that is built with React Native and uses Aries Framework JavaScript (AFJ) to exchange verifiable credentials with other agents. While AFJ handles the heavy lifting of verifiable credential work, Bifold focuses on user experience and interactions with these credentials.
