@@ -92,7 +92,7 @@ jobs:
       - name: Set latest tag
         id: previous_tag
         run: |
-          echo "previous_tag=$(git describe --tags --match='v1.0.[0-9]*')" >> $GITHUB_OUTPUT
+          echo "previous_tag=$(git describe --tags --match='v1.0.[0-9]*' --abbrev=0)" >> $GITHUB_OUTPUT
       - name: Test
         run: echo ${{ steps.previous_tag.previous_tag }}
       #builds changelog but just fetches last commit
