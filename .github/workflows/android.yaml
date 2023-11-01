@@ -107,12 +107,13 @@ jobs:
           # ignorePreReleases: ${{ !contains(github.ref, '-') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #Fetch and decrypt the keystore
+      #Fetch and decrypt the keystore to file
       - name: Decode Keystore
         id: decode_keystore
-        uses: timheuer/base64-to-file@v1
+        uses: timheuer/base64-to-file@v1.2
         with:
-          fileName: 'keystore/your_signing_keystore.jks'
+          fileName: 'android_keystore.jks'
+          fileDir: '/home/runner/work/aries-mobile-agent-react-native/packages/legacy/app/android/app/keystore/'
           encodedString: ${{ secrets.KEYSTORE }}
 
       - name: Android Release Build
