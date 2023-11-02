@@ -4,9 +4,9 @@ env:
 on:
   workflow_dispatch: null
   push:
-    tags:
-    #  - 'v[0-9]+.[0-9]+.[0-9]+-[a-zA-Z]*'
-      - 'v[0-9]+.[0-9]+.[0-9]+'
+    tags: |
+     - 'v[0-9]+.[0-9]+.[0-9]+-PROD[a-zA-Z]*'
+     - 'v[0-9]+.[0-9]+.[0-9]+-DEV[a-zA-Z]*'
 jobs:
   build-android:
     runs-on: ubuntu-latest
@@ -26,16 +26,19 @@ jobs:
 
       - name: Setup NodeJS
         uses: ./.github/actions/setup-node
+
       - name: setup ubuntu
         run: |
           sudo apt-get --quiet update --yes
           sudo apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1
+
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
           distribution: zulu
           java-version: 11
           cache: gradle
+
       - name: Setup Android SDK
         working-directory: ./packages/legacy/app/android
         run: >
@@ -76,10 +79,12 @@ jobs:
           yes | sdkmanager --licenses
 
           set -o pipefail
+
       - name: Install React Native Dependencies
         run: |
           node -v && yarn -v && yarn install --immutable && \
           git status
+
       - name: Build Workspace
         run: |
           yarn lerna run build
@@ -88,14 +93,11 @@ jobs:
         id: vars
         run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
-# echo "channel=$(echo $CHANNEL)" >> $GITHUB_OUTPUT
       - name: Set latest tag
         id: previous_tag
         run: |
           echo "previous_tag=$(git describe --tags --match='v1.0.[0-9]*' --abbrev=0)" >> $GITHUB_OUTPUT
-      - name: Test
-        run: echo ${{ steps.previous_tag.previous_tag }}
-      #builds changelog but just fetches last commit
+
       - name: Build Changelog
         id: github_release
         uses: mikepenz/release-changelog-builder-action@v4.0.0
@@ -109,6 +111,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       #Fetch and decrypt the keystore to file
+
       - name: Decode Keystore
         id: decode_keystore
         uses: timheuer/base64-to-file@v1.2
@@ -134,7 +137,6 @@ jobs:
       # - name: Get version
       #   run: echo "VERSION_INFORMATION=$(${{github.workspace}}/gradlew -q
       #     printVersionInformation)" >> $GITHUB_ENV
-
 
       - name: Create Github Release
         uses: softprops/action-gh-release@v1
