@@ -3,7 +3,6 @@
 # Summary
 
 
-
 Aries Mobile Agent React Native (Bifold) is an open-source mobile Aries client that's part of the [Hyperledger Foundation](https://www.hyperledger.org/), a global ecosystem committed to advancing enterprise-grade blockchain technologies. This project is centered around Verifiable Credentials (VC), using blockchain and best in-class cryptography technology to deliver trusted, secure data exchanges.
 
 
