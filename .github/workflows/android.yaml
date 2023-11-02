@@ -99,7 +99,7 @@ jobs:
             echo "previous_tag=$(git describe --tags --match='v1.0.[0-9]*' --abbrev=0)" >> $GITHUB_OUTPUT
             echo "inside if"
           else
-            echo "previous_tag=$(git describe --tags --match='v2.8.[0-9]*' --abbrev=0)" >> $GITHUB_OUTPUT
+            echo "previous_tag=$(git describe --tags --match='v2.3.[0-9]*' --abbrev=0)" >> $GITHUB_OUTPUT
             echo "inside else"
           fi
 
