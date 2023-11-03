@@ -140,7 +140,7 @@ jobs:
           encodedString: ${{ secrets.KEYSTORE }}
 
       - name: Android Release Build
-        if: ${{ steps.is_prod.outputs.is_prod }}
+        if: ${{ steps.is_prod.outputs.is_prod == 'true' }}
         working-directory: ./packages/legacy/app/android
         run: ./gradlew --no-daemon assembleRelease
         env:
@@ -151,20 +151,20 @@ jobs:
           VERSION_CODE: ${{github.run_number}}
 
       - name: Android Debug Build
-        if: ${{ !steps.is_prod.outputs.is_prod }}
+        if: ${{ steps.is_prod.outputs.is_prod == 'false'}}
         working-directory: ./packages/legacy/app/android
         run: ./gradlew --no-daemon assembleDebug
 
       - name: Upload Release Build to Artifacts
         uses: actions/upload-artifact@v3
-        if: ${{ steps.is_prod.outputs.is_prod }}
+        if: ${{ steps.is_prod.outputs.is_prod == 'true' }}
         with:
           name: release-artifacts
           path: ./packages/legacy/app/android/app/build/outputs/apk/release/
 
       - name: Upload Debug Build to Artifacts
         uses: actions/upload-artifact@v3
-        if: ${{ !steps.is_prod.outputs.is_prod }}
+        if: ${{ steps.is_prod.outputs.is_prod == 'false'}}
         with:
           name: release-artifacts
           path: ./packages/legacy/app/android/app/build/outputs/apk/debug/
@@ -177,7 +177,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           generate_release_notes: true
-          prerelease: ${{ !steps.is_prod.outputs.is_prod }}
+          prerelease: ${{ steps.is_prod.outputs.is_prod == 'false' }}
           files: >
             ./packages/legacy/app/android/app/build/outputs/apk/release/app-release.apk
           tag_name: ${{ github.ref_name }}
@@ -186,7 +186,7 @@ jobs:
 
       - name: upload artefact to App Center
         uses: wzieba/AppCenter-Github-Action@v1
-        if: ${{ steps.is_prod.outputs.is_prod }}
+        if: ${{ steps.is_prod.outputs.is_prod == 'true'}}
         with:
           appName: Mohsen.Zabihi-swisscom.com/Actions-Test
           token: ${{secrets.APPCENTER_KEY}}
