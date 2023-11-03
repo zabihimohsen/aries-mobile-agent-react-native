@@ -18,7 +18,6 @@ Join us as we work towards a future where verifiable credentials are easily acce
 Currently, we're updating Bifold's architecture to make it easier to maintain and customize for various use cases. Check out our [design roadmap issue](https://github.com/hyperledger/aries-mobile-agent-react-native/issues/754) for more information, and we welcome your feedback.
 
 ## Contributing
-
 We warmly welcome contributions to the Bifold project! If you're interested in joining our community, please start by reading our [Contributor's Guide](./CONTRIBUTING).
 
 ## Community
