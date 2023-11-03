@@ -92,15 +92,23 @@ jobs:
         id: vars
         run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
+      - id: Extract version from tag
+        uses: battila7/get-version-action@v2
+
+      - name : Build version name and code
+        run : |
+          echo "VERSION_NAME=${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}"
+          echo "VERSION_CODE=${{github.run_number}}"
+
       - name: Is Production
         id: is_prod
         run : |
           if [[ ${{ github.event.ref }} =~ ^refs/tags/v[0-9]+.[0-9]+.[0-9]+-PROD[a-zA-Z]*$ ]]; then
-            echo "previous_tag=$(git describe --tags --match=''v[0-9]*.[0-9]*.[0-9]*-PROD*' --abbrev=0)" >> $GITHUB_OUTPUT
+            echo "previous_tag=$(git describe --tags --match='v[0-9]*.[0-9]*.[0-9]*-PROD*' --abbrev=0)" >> $GITHUB_OUTPUT
             echo "is_prod=true" >> $GITHUB_OUTPUT
             echo "inside if"
           else
-            echo "previous_tag=$(git describe --tags --match=''v[0-9]*.[0-9]*.[0-9]*-DEV*' --abbrev=0)" >> $GITHUB_OUTPUT
+            echo "previous_tag=$(git describe --tags --match='v[0-9]*.[0-9]*.[0-9]*-DEV*' --abbrev=0)" >> $GITHUB_OUTPUT
             echo "is_prod=false" >> $GITHUB_OUTPUT
             echo "inside else"
           fi
