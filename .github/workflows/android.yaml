@@ -100,7 +100,7 @@ jobs:
 
       - name : Build version name and code
         run : |
-          echo "VERSION_NAME=${{ steps.semver_parser.outputs.major }}.${{ steps.semver_parser.outputs.minor }}.${{ steps.semver_parser.outputs.patch }}}"
+          echo "VERSION_NAME=${{ steps.semver_parser.outputs.major }}.${{ steps.semver_parser.outputs.minor }}.${{ steps.semver_parser.outputs.patch }}"
           echo "VERSION_CODE=${{github.run_number}}"
 
       - name: Is Production
