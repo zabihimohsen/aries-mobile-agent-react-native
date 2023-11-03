@@ -92,16 +92,12 @@ jobs:
         id: vars
         run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
-      - name: Parse semver string
-        id: semver_parser
-        uses: booxmedialtd/ws-action-parse-semver@v1
-        with:
-          input_string: ${{ steps.vars.outputs.tag }}
-          version_extractor_regex: '\/v(.*)$'
+      - id: Extract version from tag
+        uses: battila7/get-version-action@v2
 
       - name : Build version name and code
         run : |
-          echo "VERSION_NAME=${{ steps.semver_parser.outputs.major }}.${{ steps.semver_parser.outputs.minor }}.${{ steps.semver_parser.outputs.patch }}"
+          echo "VERSION_NAME=${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}"
           echo "VERSION_CODE=${{github.run_number}}"
 
       - name: Is Production
