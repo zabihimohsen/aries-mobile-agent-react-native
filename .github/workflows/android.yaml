@@ -99,9 +99,10 @@ jobs:
           input_string: ${{ steps.vars.outputs.tag }}
 
       - name : Build version name and code
+        id: version
         run : |
-          echo "VERSION_NAME=${{ steps.semver_parser.outputs.major }}.${{ steps.semver_parser.outputs.minor }}.${{ steps.semver_parser.outputs.patch }}"
-          echo "VERSION_CODE=${{github.run_number}}"
+          echo "version_name=${{ steps.semver_parser.outputs.major }}.${{ steps.semver_parser.outputs.minor }}.${{ steps.semver_parser.outputs.patch }}"
+          echo "version_code=${{github.run_number}}"
 
       - name: Is Production
         id: is_prod
@@ -146,7 +147,7 @@ jobs:
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
-          VERSION_NAME: "${{ steps.semver_parser.outputs.major }}.${{ steps.semver_parser.outputs.minor }}.${{ steps.semver_parser.outputs.patch }}"
+          VERSION_NAME: ${{ steps.version.outputs.version_name }}
           VERSION_CODE: ${{github.run_number}}
 
       - name: Android Debug Build
