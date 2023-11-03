@@ -92,7 +92,7 @@ jobs:
         id: vars
         run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
-      - id: Extract version from tag
+      - name: Extract version from tag
         uses: battila7/get-version-action@v2
 
       - name : Build version name and code
