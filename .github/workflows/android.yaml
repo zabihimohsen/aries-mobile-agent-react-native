@@ -92,6 +92,12 @@ jobs:
         id: vars
         run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
+      - name: Extract version from tag
+        uses: damienaicheh/extract-version-from-tag-action@v1.0.0
+        run : |
+          echo "COMMIT_COUNT=${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}"
+          echo "VERSION_NAME=${{ env.NUMBER_OF_COMMITS }}"
+
       - name: Is Production
         id: is_prod
         run : |
