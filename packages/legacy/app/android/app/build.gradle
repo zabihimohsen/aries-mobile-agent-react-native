@@ -77,6 +77,8 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def nativeArchitectures = project.getProperties().get("reactNativeDebugArchitectures")
 
+
+
 android {
     ndkVersion rootProject.ext.ndkVersion
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -95,7 +97,7 @@ android {
         applicationId "com.ariesbifold"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode System.getenv("COMMIT_COUNT")
+        versionCode System.getenv("VERSION_CODE")
         versionName System.getenv("VERSION_NAME")
 
         missingDimensionStrategy 'react-native-camera', 'general'
