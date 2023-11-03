@@ -97,8 +97,8 @@ jobs:
 
       - name : Build version name and code
         run : |
-          echo "COMMIT_COUNT=${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}"
-          echo "VERSION_NAME=${{ env.NUMBER_OF_COMMITS }}"
+          echo "VERSION_NAME=${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}"
+          echo "COMMIT_COUNT=${{ env.NUMBER_OF_COMMITS }}"
 
       - name: Is Production
         id: is_prod
