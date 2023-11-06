@@ -112,7 +112,7 @@ jobs:
             echo "is_prod=true" >> $GITHUB_OUTPUT
             echo "inside if"
           else
-            echo "previous_tag=$(git describe --tags --match='v[0-9]*.[0-9]*.[0-9]*-DEV*' --abbrev=0)" >> $GITHUB_OUTPUT
+            echo "previous_tag=$(git describe --tags --match='v[0-9]*.[0-9]*.[0-9]*-DEV*' --abbrev=0 $(git rev-list --tags --skip=1 --max-count=1))" >> $GITHUB_OUTPUT
             echo "is_prod=false" >> $GITHUB_OUTPUT
             echo "inside else"
           fi
