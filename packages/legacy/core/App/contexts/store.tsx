@@ -14,6 +14,7 @@ interface StoreProviderProps extends React.PropsWithChildren {
 
 export const defaultState: State = {
   onboarding: {
+    didSeePreface: false,
     didAgreeToTerms: false,
     didCompleteTutorial: false,
     didCreatePIN: false,
@@ -47,6 +48,7 @@ export const defaultState: State = {
     enableWalletNaming: false,
     walletName: generateRandomWalletName(),
     preventAutoLock: false,
+    alternateContactNames: {},
   },
   tours: {
     seenToursPrompt: false,
