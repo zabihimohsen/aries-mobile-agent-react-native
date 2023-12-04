@@ -110,11 +110,21 @@ jobs:
           if [[ ${{ github.event.ref }} =~ ^refs/tags/v[0-9]+.[0-9]+.[0-9]+-PROD[a-zA-Z]*$ ]]; then
             echo "previous_tag=$(git describe --abbrev=0 --tags --match='v[0-9]*.[0-9]*.[0-9]*-PROD*' $(git rev-list --tags --skip=1 --max-count=1))" >> $GITHUB_OUTPUT
             echo "is_prod=true" >> $GITHUB_OUTPUT
-            echo "inside if"
+            echo "is_staging=false" >> $GITHUB_OUTPUT
+            echo "is_dev=false" >> $GITHUB_OUTPUT
+            echo "inside prod"
+          elif [[ ${{ github.event.ref }} =~ ^refs/tags/v[0-9]+.[0-9]+.[0-9]+-STG[a-zA-Z]*$ ]]; then
+            echo "previous_tag=$(git describe --abbrev=0 --tags --match='v[0-9]*.[0-9]*.[0-9]*-STG*' $(git rev-list --tags --skip=1 --max-count=1))" >> $GITHUB_OUTPUT
+            echo "is_prod=false" >> $GITHUB_OUTPUT
+            echo "is_staging=true" >> $GITHUB_OUTPUT
+            echo "is_dev=false" >> $GITHUB_OUTPUT
+            echo "inside stg"
           else
             echo "previous_tag=$(git describe --tags --match='v[0-9]*.[0-9]*.[0-9]*-DEV*' --abbrev=0 $(git rev-list --tags --skip=1 --max-count=1))" >> $GITHUB_OUTPUT
             echo "is_prod=false" >> $GITHUB_OUTPUT
-            echo "inside else"
+            echo "is_staging=false" >> $GITHUB_OUTPUT
+            echo "is_dev=true" >> $GITHUB_OUTPUT
+            echo "inside dev"
           fi
 
       - name: Build Changelog
@@ -164,10 +174,17 @@ jobs:
 
       - name: Upload Debug Build to Artifacts
         uses: actions/upload-artifact@v3
-        if: ${{ steps.is_prod.outputs.is_prod == 'false'}}
+        if: ${{ steps.is_prod.outputs.is_dev == 'true'}}
         with:
           name: release-artifacts
           path: ./packages/legacy/app/android/app/build/outputs/apk/debug/
+
+      - name: Upload STG Build to Artifacts
+        uses: actions/upload-artifact@v3
+        if: ${{ steps.is_prod.outputs.is_staging == 'true'}}
+        with:
+            name: release-artifacts
+            path: ./packages/legacy/app/android/app/build/outputs/apk/debug/
 
       # - name: Get version
       #   run: echo "VERSION_INFORMATION=$(${{github.workspace}}/gradlew -q
